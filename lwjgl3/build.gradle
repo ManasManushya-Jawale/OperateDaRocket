@@ -1,11 +1,10 @@
-
 buildscript {
   repositories {
     gradlePluginPortal()
   }
   dependencies {
     classpath "io.github.fourlastor:construo:2.1.0"
-    if(enableGraalNative == 'true') {
+    if (enableGraalNative == 'true') {
       classpath "org.graalvm.buildtools.native:org.graalvm.buildtools.native.gradle.plugin:0.9.28"
     }
   }
@@ -18,25 +17,28 @@ apply plugin: 'io.github.fourlastor.construo'
 
 import io.github.fourlastor.construo.Target
 
-sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
+sourceSets.main.resources.srcDirs += [rootProject.file('assets').path]
 application.mainClass = 'Universe0.OperateDaRocket.lwjgl3.Lwjgl3Launcher'
 eclipse.project.name = appName + '-lwjgl3'
 java.sourceCompatibility = 17
 java.targetCompatibility = 17
 if (JavaVersion.current().isJava9Compatible()) {
-        compileJava.options.release.set(17)
+  compileJava.options.release.set(17)
 }
 
 dependencies {
   implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
   implementation "com.badlogicgames.gdx:gdx-lwjgl3-angle:$gdxVersion"
   implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+  implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+  implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+
   implementation project(':core')
 
-  if(enableGraalNative == 'true') {
+  if (enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-backend-lwjgl3:$graalHelperVersion"
 
-    }
+  }
 }
 
 def os = System.properties['os.name'].toLowerCase(Locale.ROOT)
@@ -115,42 +117,42 @@ tasks.register("jarWin") {
 }
 
 construo {
-    // name of the executable
-    name.set(appName)
-    // human-readable name, used for example in the `.app` name for macOS
-    humanName.set(appName)
+  // name of the executable
+  name.set(appName)
+  // human-readable name, used for example in the `.app` name for macOS
+  humanName.set(appName)
 
-    targets.configure {
-      register("linuxX64", Target.Linux) {
-        architecture.set(Target.Architecture.X86_64)
-        jdkUrl.set("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.15%2B6/OpenJDK17U-jdk_x64_linux_hotspot_17.0.15_6.tar.gz")
-        // Linux does not currently have a way to set the icon on the executable
-      }
-      register("macM1", Target.MacOs) {
-        architecture.set(Target.Architecture.AARCH64)
-        jdkUrl.set("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.15%2B6/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.15_6.tar.gz")
-        // macOS needs an identifier
-        identifier.set("Universe0.OperateDaRocket." + appName)
-        // Optional: icon for macOS, as an ICNS file
-        macIcon.set(project.file("icons/logo.icns"))
-      }
-      register("macX64", Target.MacOs) {
-        architecture.set(Target.Architecture.X86_64)
-        jdkUrl.set("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.15%2B6/OpenJDK17U-jdk_x64_mac_hotspot_17.0.15_6.tar.gz")
-        // macOS needs an identifier
-        identifier.set("Universe0.OperateDaRocket." + appName)
-        // Optional: icon for macOS, as an ICNS file
-        macIcon.set(project.file("icons/logo.icns"))
-      }
-      register("winX64", Target.Windows) {
-        architecture.set(Target.Architecture.X86_64)
-        // Optional: icon for Windows, as a PNG
-        icon.set(project.file("icons/logo.png"))
-        jdkUrl.set("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.15%2B6/OpenJDK17U-jdk_x64_windows_hotspot_17.0.15_6.zip")
-        // Uncomment the next line to show a console when the game runs, to print messages.
-        //useConsole.set(true)
-      }
+  targets.configure {
+    register("linuxX64", Target.Linux) {
+      architecture.set(Target.Architecture.X86_64)
+      jdkUrl.set("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.15%2B6/OpenJDK17U-jdk_x64_linux_hotspot_17.0.15_6.tar.gz")
+      // Linux does not currently have a way to set the icon on the executable
     }
+    register("macM1", Target.MacOs) {
+      architecture.set(Target.Architecture.AARCH64)
+      jdkUrl.set("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.15%2B6/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.15_6.tar.gz")
+      // macOS needs an identifier
+      identifier.set("Universe0.OperateDaRocket." + appName)
+      // Optional: icon for macOS, as an ICNS file
+      macIcon.set(project.file("icons/logo.icns"))
+    }
+    register("macX64", Target.MacOs) {
+      architecture.set(Target.Architecture.X86_64)
+      jdkUrl.set("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.15%2B6/OpenJDK17U-jdk_x64_mac_hotspot_17.0.15_6.tar.gz")
+      // macOS needs an identifier
+      identifier.set("Universe0.OperateDaRocket." + appName)
+      // Optional: icon for macOS, as an ICNS file
+      macIcon.set(project.file("icons/logo.icns"))
+    }
+    register("winX64", Target.Windows) {
+      architecture.set(Target.Architecture.X86_64)
+      // Optional: icon for Windows, as a PNG
+      icon.set(project.file("icons/logo.png"))
+      jdkUrl.set("https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.15%2B6/OpenJDK17U-jdk_x64_windows_hotspot_17.0.15_6.zip")
+      // Uncomment the next line to show a console when the game runs, to print messages.
+      //useConsole.set(true)
+    }
+  }
 }
 
 // Equivalent to the jar task; here for compatibility with gdx-setup.
@@ -175,6 +177,6 @@ distributions {
 startScripts.dependsOn(':lwjgl3:jar')
 startScripts.classpath = project.tasks.jar.outputs.files
 
-if(enableGraalNative == 'true') {
+if (enableGraalNative == 'true') {
   apply from: file("nativeimage.gradle")
 }
