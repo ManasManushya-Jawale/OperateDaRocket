@@ -1,0 +1,48 @@
+
+MainMenu.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+Button
+  rotate: false
+  xy: 1117, 1631
+  size: 256, 128
+  orig: 256, 128
+  offset: 0, 0
+  index: -1
+Button-Down
+  rotate: false
+  xy: 1, 1
+  size: 256, 128
+  orig: 256, 128
+  offset: 0, 0
+  index: -1
+Logo
+  rotate: false
+  xy: 1, 1159
+  size: 600, 600
+  orig: 600, 600
+  offset: 0, 0
+  index: -1
+Mojangles
+  rotate: false
+  xy: 1, 645
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+TNR
+  rotate: false
+  xy: 603, 1247
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+Jetbrains
+  rotate: false
+  xy: 1, 131
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1

@@ -1,11 +1,16 @@
 package Universe0.OperateDaRocket;
 
+import Universe0.OperateDaRocket.Screens.Intro.IntroScreen;
+import Universe0.OperateDaRocket.util.Screen.MyGameScreen;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -14,18 +19,15 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
  * This is a Screen
  * This screen is used in our game as a Scene which we can operate like a normal game code
  */
-public class MainMenu implements Screen {
+public class MainMenu extends MyGameScreen {
     Stage stage; // Stage for UI
     Table table; // Content Pane for items
     Skin skin; // The main skin which contains all styles for our UI
     Button start, collaboration; // Buttons
 
-    @Override
-    public void show() { } // when window is being shown
-
     // Constructor - contains our variable declaration and more
-    public MainMenu() {
-
+    public MainMenu(Game game) {
+        super(game);
         table = new Table();
         table.setFillParent(true);
 
@@ -36,7 +38,22 @@ public class MainMenu implements Screen {
         skin = new Skin(Gdx.files.internal("Skins/MainMenu/MainMenu.json"));
 
         start = new TextButton("Start", skin);
-        collaboration = new TextButton("Collaborate", skin);
+        start.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new IntroScreen(game));
+            }
+        });
+        collaboration = new TextButton("Github", skin);
+        collaboration.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    Gdx.net.openURI("https://github.com/ManasManushya-Jawale/OperateDaRocket");
+                }
+            }
+        );
 
         Image image = new Image(skin.getDrawable("Logo"));
 
@@ -62,22 +79,8 @@ public class MainMenu implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
         stage.dispose();
+        skin.dispose();
     }
 }
